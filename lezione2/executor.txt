@@ -1,0 +1,57 @@
+THREAD POOL EXECUTOR
+    //costruttore genetrico
+    public ThreadPoolExecutor(
+        int CorePoolSize,
+        int MaximumPoolSize,
+        long keepAliveTime,
+        TimeUnit unit,
+        BlockingQueue <Runnable> workqueue
+        RejectedExecutionHandler handler)
+    
+    CorePoolSize: numero minimo di thread sempre attivi nel pool.
+        Ci sono 2 modi di inizializzarli:
+        On Demand, all'inizio funziona come il cached e poi non può più scendere sotto 
+                    alla CorePoolSize.
+        PrestartAllCoreThreads(), tutto il core sin da subito.
+
+    MaximumPoolSize: Il numero massimo di thread che possono essere nel pool 
+        in un dato momento.
+
+    CorePoolSize <= k #thread attivi adesso <= MaximumPoolSize
+
+    keepAliveTime: quando dura il timeout espresso in tempo unit.
+        Dopo il timeout un thread viene deallocato, tranne quelli del core.
+        allowCoreThreadTimeOut(boolean value)
+        //di default è false 
+
+    BlockingQueue: la coda usata per mantenere le task in attesa.
+
+    RejectedExecutionHandler: politica da usare quando la coda è piena.
+        Ci sono varie api di politiche predefinite come:
+            AbortPolicy, solleva RejectedExecutionException
+            DiscardPolicy
+            DiscardOldestPolicy
+            CallerRunsPolicy
+
+        Se ne può fare uno custom implementando RejectedExecutionHandler.
+
+Cached e Fixed sono degli executor con parametri fissati di default.
+Cached: ThreadPoolExecutor(0, Integer.MAX_VALUE, 60L,TimeUnit.SECONDS,....)
+Fixed:  ThreadPoolExecutor(nThreads, nThreads, 0L, TimeUnit.MILLISECONDS,....)
+
+Per terminae il pool va eseguita una procedura spaecifica.
+
+    service.shutdown()      //smette di accettare nuove tasks
+    service.isShutdown()    //rende true se è in shutdown
+    service.isTerminated()  //rende true se tutte le task sono concluse
+    service.awaitTermination(long timeout, TimeUnit unit)
+        //si mette in attesa della terminazione del pool
+
+    service.shutdownNow()   //termina istantaneamente ed elimina le task a mezzo
+        E' implementato con l'invio di un'interruzione quindi i task la devono
+            gestire terminando.
+
+    service.close()         //libera le risorse una volta terminato
+
+In base al tipo di task si può volere più thread che core sulla macchina.
+(IObound di più, CPUbound uguale)

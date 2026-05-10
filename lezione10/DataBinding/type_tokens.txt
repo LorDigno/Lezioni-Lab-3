@@ -1,0 +1,15 @@
+In Java, i tipi generici esistono solo a livello di compilazione: a runtime, la JVM
+    cancella le informazioni sui parametri di tipo.
+Per liste o mappe occorre usare un TypeToken che conservi tutte le informazioni sul tipo.
+
+Type listType = new TypeToken<List<User>>(){}.getType();
+List<User> users = gson.fromJson(jsonString, listType);
+
+//per deserializzare il seguente JSON e memorizzarlo in una lista di User
+[
+    { "name": "Alice", "age": 25 },
+    { "name": "Bob", "age": 30 }
+]
+
+Type listType = new TypeToken<List<User>>() {}.getType();
+List<User> users = gson.fromJson(json, listType);

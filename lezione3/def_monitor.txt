@@ -1,0 +1,28 @@
+Un monitor è un costrutto di sincronizzazione ad alto livello che garantisce
+ sia la mutua esclusione nell'accesso a risorse condivise, 
+ sia la cooperazione tra thread. 
+ 
+In Java, non esiste una classe specifica 'Monitor', 
+ ma ogni istanza di qualsiasi oggetto può fungere da monitor. 
+
+Questo è possibile perché la JVM associa nativamente a ogni oggetto due elementi: 
+ Una lock intrinseca, che viene gestita tramite i blocchi o i metodi synchronized 
+  per la mutua esclusione. 
+ Una wait queue (o wait set), che gestisce l'attesa condizionale 
+  dei thread tramite i metodi wait(), notify() e notifyAll().
+
+Si ringrazia Gemini per la definizione sopra.
+(il sotto è mio)
+
+Nella WaitQueue si dividono 2 insiemi di thread:
+ EntrySet: thread in attesa di acquisire la lock implicita.
+ WaitSet: thread che hanno eseguito una wait in attesa di una notify.
+
+Un monitor è associato ad ogni oggetto istanza di una classe.
+
+Il costruttore non può essere synchronized.
+Synchronized non viene eridatato tramite overriding.
+
+wait, notify e notifyAll richiedono di avere la lock implicita prima di 
+ poter essere chiamati.
+Altrimenti lanciano IlligalMonitorException.

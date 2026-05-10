@@ -1,0 +1,46 @@
+Package utili per la concorrenza
+Java.util.concurrent
+    ,executor, concurrent collections, semaphores,...
+java.util.concurrent.atomic
+    ,AtomicBoolean, AtomicInteger,...
+java.util.concurrent.locks
+    ,Condition, Lock, ReadWriteLock
+
+Java ha ereidatrietà singola quindi sse non puoi estendere Thread puoi comunque
+    implementare runnable.
+
+Il processo finisce quando tutti i thread interni terminano (non daemon).
+Chiamare System.exit() fa terminare l'intero processo.
+
+La classe Executors opera come una Factory in grado di generare oggetti di
+    tipo ExecutorService con comportamenti predefiniti.
+I tasks devono essere incapsulati in oggetti di tipo Runnable e passati a questi
+    esecutori, mediante invocazione del metodo execute().
+
+FIXEDTHREADPOOL
+    Un tipo di threadpool con comportamento predefinito.
+    Viene creato un numero fisso di thread: n thread, n fissato al momento
+        dell'inizializzazione del pool, riutilizzati per l'esecuzione di più tasks.
+    Quando viene sottomesso un task T:
+        Se tutti i threads sono occupati nell'esecuzione di altri tasks,T viene inserito
+            in una coda, gestita automaticamente dall'ExecutorService.
+        Se almeno un thread è inattivo, viene utilizzato quel thread.
+    Utilizza una LinkedBlockingQueue illimitata.
+
+    //create the pool
+    ExecutorService service = Executors.newFixedThreadPool(10);
+
+CACHEDTHREADPOOL
+    Un altro tipo di threadpool con comportamento predefinito
+
+    //create the pool
+    ExecutorService service = Executors.newCachedThreadPool();
+
+    Se tutti i thread del pool sono occupati nell'esecuzione di altri task e c'è un
+        nuovo task da eseguire, viene creato un nuovo thread.
+    Nessun limite alla dimensione del pool
+    Se disponibile, viene riutilizzato un thread che ha terminato l'esecuzione di un
+        task precedente.
+    Se un thread rimane inutilizzato per 60 secondi, la sua esecuzione termina.
+    Elasticità: “un pool che può espandersi all'infinito, ma si contrae quando la domanda
+        di esecuzione di task diminuisce”.

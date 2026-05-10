@@ -1,0 +1,10 @@
+Far funzionare la libreria Gson senza fare un progetto serio è un casino.
+Per favore lascia i vari file nella rispettiva cartella e usa i comandi sotto.
+
+Compilare con:
+    javac -cp "../lib/gson-2.11.0.jar" nomeclasse.java
+dalla cartella in cui è il file nomeclasse.java.
+
+Eseguire con:
+    javac -cp "../lib/gson-2.11.0.jar:." nomeclasse
+dalla cartella in cui si è compilato.
